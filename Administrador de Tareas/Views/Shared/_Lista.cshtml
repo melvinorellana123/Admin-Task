@@ -1,0 +1,29 @@
+﻿@model Lista
+@{
+    var Lista = new Lista
+    {
+        Tareas = new List<Tarea>
+        {
+            new Tarea { IdTarea = 1, Descripcion = "Descripcion", Estado = "Terminado", Nombre = "Tarea 1", Orden = 1, IdSeccion = 1 },
+            new Tarea { IdTarea = 1, Descripcion = "Descripcion", Estado = "Terminado", Nombre = "Tarea 1", Orden = 1, IdSeccion = 1, },
+        }
+    };
+
+}
+<div class="lista glasmorfisify">
+    <div class="justify-content-between row p-3">
+        <h3 class="col">Terminado</h3>
+        <div class="col">
+            <div class="row flex-nowrap gap-2">
+                <a href="" class="btn btn-primary col">Editar</a>
+                <a href="" class="btn btn-danger col">Eliminar</a>
+            </div>
+        </div>
+    </div>
+
+    @foreach (var card  in Lista.Tareas)
+    {
+        <partial name="_Tarea" model="card"/>
+    }
+
+</div>

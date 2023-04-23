@@ -1,0 +1,39 @@
+﻿<nav class="navbar navbar-light   bg-light ">
+    <div class="container-fluid mx-5">
+        <div class="">
+
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <b class="text-light">Admin Task</b>
+            </a>
+            <img src="Images/tareas.png" class="icono"/>
+        </div>
+        <button class="navbar-toggler   bg-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end glasmorfisify" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title text-light " id="offcanvasNavbarLabel">Tableros</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar">
+                </form>
+                <ul class="navbar-nav justify-content-end flex-grow-1  mt-1 ">
+                    <li class="nav-item hover sidebar-menu-item">
+                        <a class="nav-link active fw-bold text-light" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item hover sidebar-menu-item ">
+                        <a class="nav-link active fw-bold text-light" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item hover sidebar-menu-item">
+                        <a class="nav-link active fw-bold text-light" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item hover sidebar-menu-item">
+                        <a class="nav-link active fw-bold text-light" aria-current="page" href="#">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
