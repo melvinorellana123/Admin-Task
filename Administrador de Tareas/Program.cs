@@ -1,4 +1,9 @@
+using Administrador_de_Tareas.Data;
+using Administrador_de_Tareas.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IDataContext, DataContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

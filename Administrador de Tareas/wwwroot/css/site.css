@@ -1,3 +1,10 @@
+
+:root {
+    --hover-color: rgba(0, 0, 0, 0.1);
+    --color-azul: rgb(12, 99, 228); 
+}
+
+
 html {
     font-size: 14px;
 }
@@ -22,15 +29,16 @@ body {
 }
 
 .navbar {
-    background-color: #0c63e4 !important;
+    background-color: var(--color-azul) !important;
     color: white !important;
 }
-header b{
+
+header b {
     font-size: 28px;
 }
 
 .icono {
-    width: 70px;
+    width: 80px;
 }
 
 .boton-crear-seccion {
@@ -48,7 +56,7 @@ header b{
 .bg_color {
     width: 100%;
     height: 40%;
-    background-color: #0c63e4;
+    background-color:var(--color-azul);
     position: absolute;
     top: 0;
     z-index: -10;
@@ -116,22 +124,7 @@ header b{
     }
 }
 
-.lista{
-    background-color: rgba(255, 255, 255, 0.5);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 20px;
-    gap: 15px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-   
-}
-
-.listado{
+.listado {
     display: flex;
     width: 100%;
     margin-top: 40px;
@@ -139,19 +132,36 @@ header b{
     gap: 20px;
 }
 
+.glasmorfisify {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
 
-.tarea{
+.lista {
+    border-radius: 5px;
+    padding: 20px;
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.tarea {
     background-color: rgba(255, 255, 255, 0.16);
     transition: 0.3s;
 }
 
-.tarea:hover{
+.tarea:hover {
     transform: scale(1.03);
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--hover-color);
 }
 
 
-.circulo-eliminar{
+.circulo-eliminar {
     width: 12px;
     height: 12px;
     border-radius: 50%;
