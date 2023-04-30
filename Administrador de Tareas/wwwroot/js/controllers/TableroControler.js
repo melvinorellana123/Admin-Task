@@ -1,13 +1,10 @@
-﻿import {LocalStorage} from "../util/localStorage.js";
-import {TableroView} from "../views/TableroView.js";
+﻿export class TableroControler {
 
-export class TableroControler {
-    #localStorage = new LocalStorage();
-
-    constructor({TableroService}) {
-
+    constructor({Servicios: {TableroService}, Vistas: {TableroView}}) {
         this.tableroService = TableroService;
-        this.tableroView = new TableroView();
+        this.tableroView = TableroView;
+        this.tableroView.setControladorInstancia(this);
+        
     }
 
     async onSelectTablero(id, nombre) {
@@ -15,10 +12,13 @@ export class TableroControler {
             const tablero = await this.tableroService.getTablero(id, nombre);
             this.tableroView.setTableroSeleccionado(nombre);
             this.tableroView.render(tablero);
-        } catch {
+        } catch (e) {
             this.tableroView.ocultarHeader();
+            console.log(e)
         }
     }
+
+
 }
 
  

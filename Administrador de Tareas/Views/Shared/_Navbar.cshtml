@@ -7,7 +7,7 @@
                 <b class="text-light">Traello</b>
             </a>
         </div>
-        <button class="navbar-toggler   bg-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <button id="navToggler" class="navbar-toggler   bg-white menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -22,9 +22,37 @@
             </div>
             <div class="offcanvas-body">
                 @* <form class="d-flex mt-3" role="search"> *@
-                @*     <input class="form-control" type="search" placeholder="Buscar" aria-label="Buscar"> *@
                 @* </form> *@
-                <ul id="sidebar" class="navbar-nav justify-content-end flex-grow-1  mt-1 "></ul>
+                <div class="col gap-2">
+
+                    <div class="row justify-content-end">
+                        <button
+                            class="btn w-auto btn-outline-info"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#myCollapse"
+                            aria-expanded="false"
+                            aria-controls="collapseExample">
+                            ➕ Nuevo Tablero
+                        </button>
+                    </div>
+
+                    <div class="row collapse g-2 mt-2" id="myCollapse">
+                        <div class="col-8">
+                            <input  id="tituloTablero" class="form-control" type="text" placeholder="Nombre del nuevo tablero" aria-label="crear tablero">
+                        </div>
+                        <div class="col-4">
+                            <button
+                                type="button"
+                                class="btn btn-info  w-100 col-6"
+                                id="btnCrearTablero"
+                                >
+                                ✅ Crear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <ul id="sidebar" class="navbar-nav justify-content-end flex-grow-1  mt-3 "></ul>
             </div>
         </div>
     </div>

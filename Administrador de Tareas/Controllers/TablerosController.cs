@@ -1,4 +1,5 @@
-﻿using Administrador_de_Tareas.Models.ViewModels;
+﻿using Administrador_de_Tareas.Models;
+using Administrador_de_Tareas.Models.ViewModels;
 using Administrador_de_Tareas.Servicios;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,5 +34,25 @@ public class TablerosController : Controller
         };
 
         return Json(tableroVm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CrearTablero(string nombreTablero)
+    {
+        
+        if (string.IsNullOrEmpty(nombreTablero))
+        {
+            return BadRequest("El nombre del tablero no puede estar vacío");
+        }
+        
+        var tablero = await _tableroServicio.CrearTablero(nombreTablero);
+        return Json(tablero);
+    }
+    
+    [HttpDelete]
+    public async Task<IActionResult> EliminarTablero(int id)
+    {
+        await _tableroServicio.EliminarTablero(id);
+        return Ok();
     }
 }

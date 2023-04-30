@@ -1,17 +1,21 @@
 ﻿import {crearTablero} from "../components/Tablero.js";
-import {addTablerosToSidebar} from "../components/Navbar.js";
-import {LocalStorage} from "../util/localStorage.js";
 
 export class TableroView {
-    #localStorage = new LocalStorage();
 
-    constructor(ClassInstance) {
-        
+    constructor() {
+    }
+
+    setControladorInstancia(TableroControllerInstance) {
+        this.tableroIntance = TableroControllerInstance;
     }
 
     mostrarHeader() {
         const header = document.querySelector('#header');
+        const tableroNombre = this.tableroIntance.tableroService.tableroSeleccionado?.nombreTablero
+        const titulo = header?.querySelector('h1');
+        titulo.innerHTML = tableroNombre;
         header?.classList.remove('invisible');
+
     }
 
     ocultarHeader() {
@@ -21,6 +25,7 @@ export class TableroView {
 
 
     render(tablero) {
+        console.log(tablero)
         crearTablero(tablero);
     }
 

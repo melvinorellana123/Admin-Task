@@ -7,3 +7,4 @@
         return localStorage.getItem(key, value)
     }
 }
+

@@ -9,12 +9,14 @@ export class TableroService {
 
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
-        this.tableroSeleccionado = this.obtenerTableroSeleccionado;
+        this.obtenerTableroSeleccionado
     }
 
     get obtenerTableroSeleccionado() {
-        this.tableroSeleccionado.nombreTablero = this.#localStorage.getItem("nombreTablero");
-        this.tableroSeleccionado.idTablero = this.#localStorage.getItem("idTablero");
+        this.tableroSeleccionado = {
+            idTablero: this.#localStorage.getItem("idTablero"),
+            nombreTablero: this.#localStorage.getItem("nombreTablero")
+        }
     }
 
     #setTableroSeleccionado(id, nombre) {
@@ -41,6 +43,30 @@ export class TableroService {
     async getTableros() {
         const response = await fetch(`${this.baseUrl}Tableros/GetTableros`);
         return await response.json();
+    }
+
+    async crearTablero(nombre) {
+        const tablero = await fetch(`${this.baseUrl}Tableros/CrearTablero/?nombreTablero=${nombre}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        return await tablero.json();
+    }
+
+    async borraTablero(id) {
+        await fetch(`${this.baseUrl}Tableros/EliminarTablero/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        return Promise.resolve();
     }
 }
 

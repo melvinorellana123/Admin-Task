@@ -4,15 +4,38 @@
 
 
 <div id="header" class="text-center row justify-content-center align-items-center inicio invisible">
-    <h1 id="tituloTablero" class="text-light col-auto "></h1>
-    <div class="col-auto  ">
+    <div class="row justify-content-center align-items-center">
 
-        <a href="" class="btn btn-light boton-crear-seccion">Crear Lista</a>
+        <h1 id="tituloTablero" class="text-light col-auto "></h1>
+        <div class="col-auto  ">
+
+            <a href="" class="btn btn-light boton-crear-seccion"
+               data-bs-toggle="collapse"
+               data-bs-target="#myCollapseLista"
+               aria-expanded="false"
+               aria-controls="collapseExample">
+                Crear Lista
+            </a>
+        </div>
+    </div>
+
+    <div class="row collapse g-2 mt-2 w-50" id="myCollapseLista">
+        <div class="col-8">
+            <input id="tituloLista" class="form-control" type="text" placeholder="Nombre de la nueva lista" aria-label="crear lista">
+        </div>
+        <div class="col-4">
+            <button
+                type="button"
+                class="btn btn-info  w-100 col-6"
+                id="btnCrearLista">
+                ✅ Crear
+            </button>
+        </div>
     </div>
 </div>
 
 <div id="listado" class="listado ">
-    
+
 </div>
 
 @section Scripts
@@ -20,7 +43,7 @@
     <script type="module">
        import  {App} from "./js/site.js"
         function main() { 
-           new App(`@Url.Action()`)
+            new App(`@Url.Action()`)
         }
         
         $(document).ready(main)

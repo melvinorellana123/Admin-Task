@@ -3,6 +3,7 @@ import {SidebarControler} from "./controllers/SidebarController.js";
 import {TableroService} from "./services/TableroService.js";
 import {SidebarView} from "./views/SidebarView.js";
 import {TableroView} from "./views/TableroView.js";
+import {StorageService} from "./services/StorageService.js";
 
 export class App {
     #baseUrl;
@@ -12,7 +13,7 @@ export class App {
 
     constructor(baseUrl) {
         this.#baseUrl = baseUrl;
-        this.#services = [TableroService]
+        this.#services = [TableroService, StorageService]
         this.#controllers = [TableroControler, SidebarControler]
         this.#views = [SidebarView, TableroView]
         /**

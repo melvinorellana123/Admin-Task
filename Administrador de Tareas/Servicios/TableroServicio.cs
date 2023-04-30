@@ -14,6 +14,7 @@ public class TableroServicio : ITableroServicio
         this._context = _context;
     }
 
+
     public async Task<IEnumerable<Tablero>> ObtenerTableros()
     {
         using var connection = _context.CreateConnection();
@@ -26,7 +27,7 @@ public class TableroServicio : ITableroServicio
         return tableros;
     }
 
-    public async Task<int> CrearTablero(Tablero tablero)
+    public async Task<Tablero> CrearTablero(string tableroNombre)
     {
         using var connection = _context.CreateConnection();
         connection.Open();
@@ -34,11 +35,25 @@ public class TableroServicio : ITableroServicio
             @"INSERT INTO Tablero 
                 (nombre ) 
             VALUES 
-                (@nombre );
+                ( @nombre );
             SELECT CAST(SCOPE_IDENTITY() as int);";
-        var id = await connection.QuerySingleAsync(query, tablero);
+        var tableroId = await connection.QuerySingleAsync<int>(query, new { nombre = tableroNombre });
         connection.Close();
-        return id;
+        return new Tablero
+        {
+            IdTablero = tableroId,
+            Nombre = tableroNombre
+        };
+    }
+
+    public Task EliminarTablero(int id)
+    {
+        using var connection = _context.CreateConnection();
+        connection.Open();
+        var query = @$"DELETE FROM Tablero WHERE id_tablero = @Id;";
+        connection.Execute(query, new { Id = id });
+        connection.Close();
+        return Task.CompletedTask;
     }
 
     public async Task<List<Lista>> ObtenerListasPorId(int id)
