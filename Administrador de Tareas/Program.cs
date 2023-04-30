@@ -1,9 +1,14 @@
 using Administrador_de_Tareas.Data;
 using Administrador_de_Tareas.Interfaces;
+using Administrador_de_Tareas.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IDataContext, DataContext>();
+
+builder.Services.AddTransient<ITableroServicio, TableroServicio>();
+builder.Services.AddTransient<IListaServicio, ListaServicio>();
+builder.Services.AddTransient<ITareaServicio, TareaServicio>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

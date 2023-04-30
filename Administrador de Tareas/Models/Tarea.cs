@@ -3,9 +3,8 @@
 public class Tarea
 {
     public int IdTarea { get; set; }
-    public string Nombre { get; set; }
+    public string TareaNombre { get; set; }
     public string Descripcion { get; set; }
-    public string Estado { get; set; }
-    public int IdSeccion { get; set; }
-    public int Orden { get; set; }
+    public int IdLista { get; set; }
+    public int TareaOrden { get; set; }
 }

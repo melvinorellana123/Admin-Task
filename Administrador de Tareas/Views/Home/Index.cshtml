@@ -3,15 +3,26 @@
 }
 
 
-<div class="text-center row justify-content-center align-items-center inicio">
-    <h1 class="text-light col-auto ">Mi Tablero</h1>
-    <div class="col-auto">
+<div id="header" class="text-center row justify-content-center align-items-center inicio invisible">
+    <h1 id="tituloTablero" class="text-light col-auto "></h1>
+    <div class="col-auto  ">
 
         <a href="" class="btn btn-light boton-crear-seccion">Crear Lista</a>
     </div>
 </div>
 
-<div class="listado ">
-
-    <partial name="_Lista"/>
+<div id="listado" class="listado ">
+    
 </div>
+
+@section Scripts
+{
+    <script type="module">
+       import  {App} from "./js/site.js"
+        function main() { 
+           new App(`@Url.Action()`)
+        }
+        
+        $(document).ready(main)
+    </script>
+}
