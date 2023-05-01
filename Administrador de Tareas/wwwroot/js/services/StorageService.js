@@ -11,4 +11,13 @@
         localStorage.removeItem("idTablero");
         localStorage.removeItem("nombreTablero");
     }
+
+    setTableroSeleccionado({idTablero, nombre}) {
+        localStorage.setItem("idTablero", idTablero);
+        localStorage.setItem("nombreTablero", nombre);
+    }
+    
+    get fueBorrado() {
+        return localStorage.getItem("idTablero") === null;
+    }
 }

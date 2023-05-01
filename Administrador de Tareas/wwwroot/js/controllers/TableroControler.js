@@ -1,24 +1,24 @@
 ﻿export class TableroControler {
 
-    constructor({Servicios: {TableroService}, Vistas: {TableroView}}) {
+    constructor({Servicios: {TableroService, StorageService}, Vistas: {TableroView, ListaView}}) {
         this.tableroService = TableroService;
+        this.storageService = StorageService;
+        
         this.tableroView = TableroView;
         this.tableroView.setControladorInstancia(this);
-        
+        this.listaView = ListaView;
+
     }
 
     async onSelectTablero(id, nombre) {
         try {
             const tablero = await this.tableroService.getTablero(id, nombre);
-            this.tableroView.setTableroSeleccionado(nombre);
-            this.tableroView.render(tablero);
+            this.listaView.render(tablero);
         } catch (e) {
             this.tableroView.ocultarHeader();
             console.log(e)
         }
     }
-
-
 }
 
  

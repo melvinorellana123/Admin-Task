@@ -3,10 +3,8 @@ import {LocalStorage} from "../util/localStorage.js";
 
 export class SidebarView {
     #sidebarControllerInstance;
-    #button
     #localStorage = new LocalStorage()
     #navOpen = false
-
 
     constructor() {
         // this.selectcionarBotionCrearTablero()
@@ -23,16 +21,16 @@ export class SidebarView {
 
     mostrarTableroSeleccionado() {
         // si hay un tablero seleccionado en localStorage pedir los datos de ese tablero
-        const {idTablero, nombreTablero} = this.#sidebarControllerInstance.tableroService.tableroSeleccionado
+        const {idTablero, nombreTablero} = this.#sidebarControllerInstance.storageService.tableroSeleccionado
         this.onClickNavbarItem(idTablero, nombreTablero)
     }
 
     async onClickNavbarItem(idTablero, nombreTablero) {
         await this.#sidebarControllerInstance.onSelectTablero(idTablero, nombreTablero);
-        this.#setNavItemActiva(idTablero);
+        this.setNavItemActiva(idTablero);
     }
 
-    #setNavItemActiva(navItemId) {
+    setNavItemActiva(navItemId) {
         const navItems = document.querySelector('#sidebar')
         navItems.childNodes.forEach(item => {
             item.classList.remove('active')
@@ -41,13 +39,6 @@ export class SidebarView {
         navItem?.classList.add('active')
     }
 
-
-    selectcionarBotionCrearTablero() {
-        // this.#button = document.querySelector('#crear-tablero')
-        // this.#button.addEventListener('click', () => {
-        //     this.onCrearTablero()
-        // })
-    }
 
     setDefaulNavOpenState() {
         const $myOffcanvas = document.getElementById('offcanvasNavbar')
@@ -96,6 +87,7 @@ export class SidebarView {
             const nombreTablero = document.querySelector('#tituloTablero').value
             await this.#sidebarControllerInstance.onCrearTablero(nombreTablero)
             document.querySelector('#tituloTablero').value = ''
+
             this.cerrarCrearTableroCollapse()
         }
 
@@ -116,10 +108,7 @@ export class SidebarView {
     }
 
     renderNav(tableros) {
-        console.log('renderNav')
         addTablerosToSidebar(tableros, (nombre, id) => this.onClickNavbarItem(id, nombre))
-
         this.onBorrarTableroListener()
     }
-
 }

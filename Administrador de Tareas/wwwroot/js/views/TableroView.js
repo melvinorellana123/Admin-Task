@@ -1,6 +1,4 @@
-﻿import {crearTablero} from "../components/Tablero.js";
-
-export class TableroView {
+﻿export class TableroView {
 
     constructor() {
     }
@@ -11,7 +9,8 @@ export class TableroView {
 
     mostrarHeader() {
         const header = document.querySelector('#header');
-        const tableroNombre = this.tableroIntance.tableroService.tableroSeleccionado?.nombreTablero
+        const tableroNombre = this.tableroIntance.storageService.tableroSeleccionado?.nombreTablero
+        
         const titulo = header?.querySelector('h1');
         titulo.innerHTML = tableroNombre;
         header?.classList.remove('invisible');
@@ -21,12 +20,6 @@ export class TableroView {
     ocultarHeader() {
         const header = document.querySelector('#header');
         header?.classList.add('invisible');
-    }
-
-
-    render(tablero) {
-        console.log(tablero)
-        crearTablero(tablero);
     }
 
 

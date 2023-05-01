@@ -3,7 +3,10 @@ import {SidebarControler} from "./controllers/SidebarController.js";
 import {TableroService} from "./services/TableroService.js";
 import {SidebarView} from "./views/SidebarView.js";
 import {TableroView} from "./views/TableroView.js";
+import {ListaView} from "./views/ListaView.js";
 import {StorageService} from "./services/StorageService.js";
+import {ListaService} from "./services/ListaService.js";
+import {ListaControler} from "./controllers/ListaController.js";
 
 export class App {
     #baseUrl;
@@ -13,9 +16,9 @@ export class App {
 
     constructor(baseUrl) {
         this.#baseUrl = baseUrl;
-        this.#services = [TableroService, StorageService]
-        this.#controllers = [TableroControler, SidebarControler]
-        this.#views = [SidebarView, TableroView]
+        this.#services = [TableroService, StorageService, ListaService]
+        this.#controllers = [TableroControler, SidebarControler, ListaControler]
+        this.#views = [SidebarView, TableroView, ListaView]
         /**
          * Inicializamos los servicios y las vistas o en otras palabras
          * hacemos new de cada servicio y de cada vista
@@ -49,7 +52,7 @@ export class App {
         this.#controllers.forEach(controller => {
             //jusntamos los servicios y las vistas en un solo array para luego Crear un objetos
             // con una propiedad donde estarán todos los servicios y otra propiedad donde estarán todas las vistas
-            const servicesObject = [...views, ...services].reduce((acc, claseAinyectar) => {
+            const servicesViewaObject = [...views, ...services].reduce((acc, claseAinyectar) => {
 
                 const claseNombre = claseAinyectar.constructor.name
                 if (claseNombre.includes('Service')) {
@@ -68,7 +71,7 @@ export class App {
             })
 
             //creamos una instancia del controlador y le pasamos el objeto con los servicios
-            new controller(servicesObject)
+            new controller(servicesViewaObject)
         })
     }
 }

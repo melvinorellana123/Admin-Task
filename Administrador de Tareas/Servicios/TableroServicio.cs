@@ -70,13 +70,18 @@ public class TableroServicio : ITableroServicio
                        tar.orden       as TareaOrden
                 FROM Tablero as t
                          INNER JOIN Lista as l ON l.id_tablero = t.id_tablero
-                         INNER JOIN Tarea as tar ON tar.id_lista = l.id_lista
+                         LEFT JOIN Tarea as tar ON tar.id_lista = l.id_lista
                 WHERE t.id_tablero = {id};";
 
         var listas = await connection.QueryAsync<Lista, Tarea, Lista>(query,
             (lista, tarea) =>
             {
-                lista.Tareas.Add(tarea);
+                if (tarea != null)
+                {
+                    lista.Tareas.Add(tarea);
+                }
+
+
                 return lista;
             }
             , splitOn: "IdTarea"
@@ -85,7 +90,18 @@ public class TableroServicio : ITableroServicio
         var result = listas.GroupBy(p => p.IdLista).Select(g =>
         {
             var groupedList = g.First();
-            groupedList.Tareas = g.Select(p => p.Tareas.Single()).ToList();
+            var todasTareasPertenecientesAUnaLista = g.TakeWhile(p => p.Tareas.SingleOrDefault() != null);
+
+            var tareasPertenecientesAUnaLista =todasTareasPertenecientesAUnaLista != null ? todasTareasPertenecientesAUnaLista.Select(p => p.Tareas.SingleOrDefault()) : null;
+            if (tareasPertenecientesAUnaLista != null)
+            {
+                groupedList.Tareas = tareasPertenecientesAUnaLista.ToList();
+            }
+            else
+            {
+                groupedList.Tareas = new List<Tarea>();
+            }
+
             return groupedList;
         });
 

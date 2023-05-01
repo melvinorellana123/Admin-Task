@@ -14,19 +14,26 @@ public class ListaServicio : IListaServicio
     }
 
 
-    public async Task<int> CrearLista(Lista lista)
+    public async Task<Lista> CrearLista(Lista lista)
     {
         using var connection = _context.CreateConnection();
         connection.Open();
         var query =
             @"INSERT INTO Lista 
-                (nombre, id_tablero, orden) 
+                (nombre, id_tablero) 
             VALUES 
-                (@nombre, @id_tablero, @orden); 
+                (@Nombre, @IdTablero); 
             SELECT CAST(SCOPE_IDENTITY() as int);";
-        var idLista = await connection.QuerySingleAsync<int>(query, lista);
+        var idLista =
+            await connection.QuerySingleAsync<int>(query,
+                new { Nombre = lista.ListaNombre, IdTablero = lista.IdTablero });
         connection.Close();
-        return idLista;
+        return new Lista
+        {
+            IdTablero = lista.IdTablero,
+            ListaNombre = lista.ListaNombre,
+            IdLista = idLista,
+        };
     }
 
     public async Task<IEnumerable<Lista>> ObtenerListas()
@@ -39,15 +46,28 @@ public class ListaServicio : IListaServicio
         return listas;
     }
 
+    public async Task<Lista> ObtenerListaPorId(int id)
+    {
+        using (var connection = _context.CreateConnection())
+        {
+            var query = @"SELECT * FROM Lista WHERE id_lista = @id";
+            var lista = await connection.QuerySingleAsync<Lista>(query, new { id });
+
+            return lista;
+        }
+    }
+
     public async Task<int> EliminarLista(int id)
     {
-        using var connection = _context.CreateConnection();
-        connection.Open();
-        var query = @"DELETE FROM Lista WHERE id = @id";
-        var filasAfectadas = await connection.ExecuteAsync(query, new { id });
-        connection.Close();
-        return filasAfectadas;
+        using (var connection = _context.CreateConnection())
+        {
+            var query = @"DELETE FROM Lista WHERE id_lista = @id";
+            var filasAfectadas = await connection.ExecuteAsync(query, new { id });
+
+            return filasAfectadas;
+        }
     }
+
 
     //actualizar order
     public async Task ActualizarOrdenLista(int id, int orden)
@@ -72,9 +92,34 @@ public class ListaServicio : IListaServicio
     {
         using var connection = _context.CreateConnection();
         connection.Open();
-        var query = @"SELECT * FROM Lista WHERE id_tablero = @idTablero";
-        var listas = await connection.QueryAsync<Lista>(query, new { idTablero });
+        var query = @$"SELECT 
+            li.id_lista AS IdLista,
+            li.nombre AS ListaNombre,
+            li.id_tablero AS IdTablero,
+            li.orden AS ListaOrden,
+            ta.id_tarea AS IdTarea,
+            ta.nombre AS TareaNombre,
+            ta.descripcion AS Descripcion,
+            ta.id_lista AS IdLista,
+            ta.orden AS TareaOrden,
+            FROM Lista AS li
+         INNER JOIN Tarea ta ON Lista.id = Tarea.id_lista
+         WHERE id_tablero = {idTablero}";
+        var listas = await connection.QueryAsync<Lista, Tarea, Lista>(query,
+            (lista, tarea) =>
+            {
+                lista.Tareas.Add(tarea);
+                return lista;
+            }, splitOn: "IdTarea");
+
+        var result = listas.GroupBy(p => p.IdLista).Select(g =>
+        {
+            var groupedList = g.First();
+            groupedList.Tareas = g.Select(p => p.Tareas.Single()).ToList();
+            return groupedList;
+        });
+
         connection.Close();
-        return listas;
+        return result;
     }
 }
