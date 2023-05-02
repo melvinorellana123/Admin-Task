@@ -8,6 +8,8 @@ export class TableroView {
     setControladorInstancia(TableroControllerInstance) {
         this.tableroIntance = TableroControllerInstance;
         this.editarNombreTablero();
+
+
     }
 
     mostrarHeader() {

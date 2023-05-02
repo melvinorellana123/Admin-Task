@@ -1,6 +1,5 @@
 ﻿import {Lista} from "../models/Lista.js";
-import {Tarea} from "../models/Tarea.js";
-
+ 
 export class ListaService {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;

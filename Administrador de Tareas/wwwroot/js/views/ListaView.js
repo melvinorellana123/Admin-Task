@@ -2,6 +2,51 @@
 import {NoData} from "../components/NoData.js";
 import {crearTareaUI} from "../components/TareaUI.js";
 
+
+function MultipleContainers(listas, tablero, onMoverCard) {
+    const containersIds = listas.map(l => `#tareas-${l.idLista}`).join(' ,')
+
+    const containers = tablero.querySelectorAll(`${containersIds}`);
+ 
+    containers.forEach(con => {
+
+        Sortable.create(con, {
+            group: 'shared',
+            animation: 400,
+            handle: '.tarea',
+            easing: 'cubic-bezier(0.895,0.03,0.685,0.22)',
+            chosenClass: 'hover',
+            onSort: function (evt) {
+
+                // onMoverCard(evt)
+            },
+            // Event when you move an item in the list or between lists
+            onMove: function (/**Event*/evt, /**Event*/originalEvent) {
+                // Example: https://jsbin.com/nawahef/edit?js,output
+                evt.dragged; // dragged HTMLElement
+                evt.draggedRect; // DOMRect {left, top, right, bottom}
+                evt.related; // HTMLElement on which have guided
+                evt.relatedRect; // DOMRect
+                evt.willInsertAfter; // Boolean that is true if Sortable will insert drag element after target by default
+                originalEvent.clientY; // mouse position
+                // return false; — for cancel
+                // return -1; — insert before target
+                // return 1; — insert after target
+                // return true; — keep default insertion point based on the direction
+                // return void; — keep default insertion point based on the direction
+                // onMoverCard(evt,originalEvent)
+            },
+
+            // Element is dropped into the list from another list
+            onAdd: function (/**Event*/evt) {
+                // same properties as onEnd
+                onMoverCard(evt)
+            },
+        });
+    })
+
+}
+
 export class ListaView {
     #listaController
     #numListas = 0;
@@ -58,7 +103,7 @@ export class ListaView {
     async onCrearTarea(nombre, descripcion, idLista) {
 
         const tarea = await this.#listaController.onCrearTarea(nombre, descripcion, idLista);
-        
+
         this.agregarTarea(tarea);
     }
 
@@ -94,7 +139,7 @@ export class ListaView {
             lista,
             (idLista) => this.onEliminarLista(idLista),
             (...data) => this.onEditarLista(...data),
-            (...tarea) =>this.onCrearTarea(...tarea),
+            (...tarea) => this.onCrearTarea(...tarea),
             (...tarea) => this.crearTareaUiConEventos(...tarea),
         )
     }
@@ -109,6 +154,11 @@ export class ListaView {
         this.$tablero.innerHTML = '';
     }
 
+    onMoverCard(data) {
+        console.log(data)
+    }
+
+
     render(listas) {
         const {fueBorrado} = this.#listaController.storageService;
         this.#limpiarListas();
@@ -122,10 +172,10 @@ export class ListaView {
             this.mostrarNoHayListas()
             return
         }
-
         const listasUi = listas?.map(lista => this.crearListaConEventos(lista));
 
         this.$tablero.append(...listasUi)
+        MultipleContainers(listas, this.$tablero, this.onMoverCard)
     }
 
     mostrarNoHayListas() {

@@ -1,6 +1,8 @@
-﻿export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea) {
+﻿import {escuchador} from "../util/escuchador";
+
+export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea) {
     const tareaHtml = `
-        <div class="tarea card">
+        <div class="tarea card " id="${tarea.idTarea}">
             <div class="card-body" id="card-body-${tarea.idTarea}">
                   <div class="row g-0">
                       <h4 id="editarTitulo-${tarea.idTarea}"  tabindex="${tarea.idTarea}"    class="card-title col editable">${tarea.tareaNombre}</h4>
@@ -86,6 +88,7 @@
         $editarTitulo.contentEditable = false;
         $editarTextArea.contentEditable = false;
     }
+    escuchador( )
 
 
     return tareaUI.firstElementChild;

@@ -62,7 +62,7 @@ export function crearLista(lista, onDelete, onEdit, onCrearNuevaTarea, tareaUi) 
                     </div>
                     </div>
                </div> 
-                <span id="tareas-${lista.idLista}"  class="row gap-2 mt-1" >
+                <span id="tareas-${lista.idLista}"  class="row gap-2 mt-1 tareas" >
                  ${tareas}
                 </span>
             </div>
