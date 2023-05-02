@@ -1,5 +1,6 @@
 ﻿using Administrador_de_Tareas.Interfaces;
 using Administrador_de_Tareas.Models;
+using Administrador_de_Tareas.Models.ViewModels;
 using Dapper;
 
 namespace Administrador_de_Tareas.Servicios;
@@ -57,6 +58,38 @@ public class TareaServicio : ITareaServicio
         return tareas;
     }
 
+    public Task MoverTareaASeccion(MoverTareaVM moverTareaDto)
+    {
+        using var connection = _dataContext.CreateConnection();
+        connection.Open();
+        // mover la tareaFrom para la lista y posicion de la tareaTo
+        //setear el orden de la tarea to a la tarea from y aumentar el orden de las tareas que estan debajo de la tarea to
+
+        var query = @"
+            UPDATE Tarea SET
+                id_lista = @IdListaTo,
+                orden = @TareaToOrden
+            WHERE id_tarea = @TareaFromId;
+        UPDATE Tarea SET
+                orden = orden + 1
+            WHERE id_lista = @IdListaTo AND orden >= @TareaToOrden;
+        
+        
+";
+
+        connection.ExecuteAsync(query, new
+        {
+            // TareToId = moverTareaDto.TareaTo.IdTarea,
+            TareaToOrden = moverTareaDto.TareaTo.TareaOrden,
+            TareaFromId = moverTareaDto.TareaFrom.IdTarea,
+            // TareaFromOrden = moverTareaDto.TareaFrom.TareaOrden,
+            IdListaTo = moverTareaDto.TareaTo.IdLista,
+            // IdListaFrom = moverTareaDto.TareaFrom.IdLista
+        });
+        connection.Close();
+        return Task.CompletedTask;
+    }
+
     public async Task<Tarea> ObtenerTareaPorId(int id)
     {
         using var connection = _dataContext.CreateConnection();
@@ -73,11 +106,11 @@ public class TareaServicio : ITareaServicio
         connection.Open();
         var query =
             @"UPDATE Tarea SET 
-                nombre = @nombre, 
-                descripcion = @descripcion, 
-                id_lista = @idLista, 
-                orden = @orden
-            WHERE id = @id";
+                nombre = @TareaNombre, 
+                descripcion = @Descripcion, 
+                id_lista = @IdLista, 
+                orden = @TareaOrden
+            WHERE id_tarea = @IdTarea";
 
         var idTask = await connection.ExecuteAsync(query, tarea);
         connection.Close();
@@ -88,7 +121,7 @@ public class TareaServicio : ITareaServicio
     {
         using var connection = _dataContext.CreateConnection();
         connection.Open();
-        var query = @"DELETE FROM Tarea WHERE id = @id";
+        var query = @"DELETE FROM Tarea WHERE id_tarea = @id";
         var idTask = await connection.ExecuteAsync(query, new { id });
         connection.Close();
         return idTask;

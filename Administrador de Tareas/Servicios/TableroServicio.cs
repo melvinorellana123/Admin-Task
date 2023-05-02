@@ -78,7 +78,8 @@ public class TableroServicio : ITableroServicio
                        tar.id_tarea    as IdTarea,
                        tar.nombre      as TareaNombre,
                        tar.descripcion as Descripcion,
-                       tar.orden       as TareaOrden
+                       tar.orden       as TareaOrden,
+                       tar.id_lista as idLista
                 FROM Tablero as t
                          INNER JOIN Lista as l ON l.id_tablero = t.id_tablero
                          LEFT JOIN Tarea as tar ON tar.id_lista = l.id_lista

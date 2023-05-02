@@ -128,7 +128,7 @@ public class ListaServicio : IListaServicio
         using var connection = _context.CreateConnection();
 
         var query = @"UPDATE Lista SET nombre = @nombre WHERE id_lista = @id";
-        var filasAfectadas = connection.Execute(query, new { nombre = lista.ListaNombre, id = lista.IdLista });
+        connection.Execute(query, new { nombre = lista.ListaNombre, id = lista.IdLista });
 
         return Task.FromResult(lista);
     }

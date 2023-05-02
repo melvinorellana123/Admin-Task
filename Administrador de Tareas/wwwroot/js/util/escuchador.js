@@ -1,7 +1,7 @@
-﻿export function escuchador($element, escuchador) {
-    $element.removeEventListener('click', escuchador);
+﻿export function escuchador($element, escuchador, event = 'click') {
+    $element.removeEventListener(event, escuchador);
 
 
-    $element.addEventListener('click', escuchador);
+    $element.addEventListener(event, escuchador);
 
 }

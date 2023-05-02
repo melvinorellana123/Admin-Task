@@ -28,6 +28,18 @@
     async onCrearTarea(nombre, descripcion, idLista) {
         return await this.listaService.crearTarea(nombre, descripcion, idLista)
     }
+    
+    async onEditarTarea(tarea){
+        return await this.listaService.editarTarea(tarea)
+    }
+    
+    async onEliminarTarea(tarea){
+        await this.listaService.eliminarTarea(tarea)
+    }
+    
+    async onMoverTarea(moverTareaDto){
+        await this.listaService.moverTarea(moverTareaDto)
+    }
 }
 
  

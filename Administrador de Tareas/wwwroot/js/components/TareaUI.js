@@ -1,19 +1,19 @@
 ﻿// import {escuchador} from "../util/escuchador";
 
-export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea) {
+import {escuchador} from "../util/escuchador.js";
+
+export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea ) {
     const tareaHtml = `
-        <div class="tarea card " id="${tarea.idTarea}">
+        <div class="tarea card " id="tarea-${tarea.idTarea}">
             <div class="card-body" id="card-body-${tarea.idTarea}">
                   <div class="row g-0">
                       <h4 id="editarTitulo-${tarea.idTarea}"  tabindex="${tarea.idTarea}"    class="card-title col col-11 editable">${tarea.tareaNombre}</h4>
             
                       <div class="col-1 row align-items-end justify-content-end p-0 m-0">
-                            <a href="" tabindex="-1" class="btn btn-danger p-0  circulo-eliminar col col-auto circulo-eliminar-tarea editable"></a>  
+                            <a  tabindex="-1" id="btnBorrar" class="btn btn-danger p-0  circulo-eliminar col col-auto circulo-eliminar-tarea editable"></a>  
                        </div>
                       <p class="card-text editable col col-11"  tabindex="${tarea.idTarea}"   id="editarTextArea-${tarea.idTarea}">${tarea.descripcion}</p>
                   </div>
-            
-                  
             </div>
         </div> 
      `
@@ -24,42 +24,66 @@ export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea
 
     const $editarTitulo = tareaUI.querySelector(`#editarTitulo-${tarea.idTarea}`);
     const $editarTextArea = tareaUI.querySelector(`#editarTextArea-${tarea.idTarea}`);
+    const $btnBorrar = tareaUI.querySelector('#btnBorrar')
 
-    let editando = false;
-    let tituloText;
-    let descripcionText;
+    let tituloText = tarea.tareaNombre;
+    let descripcionText = tarea.descripcion;
+    let nuevoTitulo
+    let nuavaDescripcion
 
     tareaUI.querySelector(`#card-body-${tarea.idTarea} `).addEventListener('dblclick', () => {
         hacerEditableAmbos();
     });
 
-    tareaUI.querySelector(`#card-body-${tarea.idTarea} `).addEventListener('keyup', async (e) => {
-        tituloText = $editarTitulo.textContent
-        descripcionText = $editarTextArea.textContent
-        if (
-            tituloText === tarea.tareaNombre
-            || descripcionText === tarea.descripcion
-        ) return;
 
+    async function onBorrarTarea() {
+        await onEliminarTarea(tarea)
+    }
+
+    escuchador($btnBorrar, onBorrarTarea)
+
+
+    let editado = false
+
+    function onPresionarEnter(e) {
+        nuevoTitulo = $editarTitulo.innerText
+        nuavaDescripcion = $editarTextArea.innerText
+
+        const sinCambios = nuevoTitulo === tituloText && nuavaDescripcion === descripcionText
+        if (sinCambios) {
+            return
+        }
+
+        if (!nuevoTitulo.length > 0 || !nuavaDescripcion.length > 0) {
+            return;
+        }
 
         if (e.key === 'Enter') {
-
-            console.log($editarTitulo.innerText, $editarTextArea.innerText)
+            e.preventDefault()
+            editado = true
+            nuevoTitulo = nuevoTitulo.trim()
+            nuavaDescripcion = nuavaDescripcion.trim()
             try {
-                onEditarTarea({...tarea, tareaNombre: tituloText, descripcion: descripcionText});
+                onEditarTarea({...tarea, tareaNombre: nuevoTitulo, descripcion: nuavaDescripcion});
+                hacerNoEditableAmbos()
+                $editarTitulo.innerText = nuevoTitulo
+                $editarTextArea.innerText = nuavaDescripcion
+                return;
             } catch (e) {
                 hacerNoEditableAmbos()
                 resetearValores()
             }
         }
 
-
         if (e.key === 'Escape') {
-
             resetearValores();
             hacerNoEditableAmbos();
         }
-    });
+    }
+
+
+    escuchador($editarTitulo, onPresionarEnter, 'keyup')
+    escuchador($editarTextArea, onPresionarEnter, 'keyup')
 
 
     document.addEventListener('click', (e) => {
@@ -67,7 +91,8 @@ export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea
         const formElementsIds = [`card-body-${tarea.idTarea}`, `editarTitulo-${tarea.idTarea}`, `editarTextArea-${tarea.idTarea}`]
         const dentroDelForm = formElementsIds.some(id => id === elementoTargetId)
 
-        if (!dentroDelForm) {
+        if (!dentroDelForm && !editado) {
+            editado = false;
             hacerNoEditableAmbos();
             resetearValores();
         }
@@ -78,22 +103,17 @@ export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea
         $editarTextArea.textContent = tarea.descripcion;
     }
 
-    // hacerEditable($editarTitulo, editingTitulo, {...tarea, idLista: tarea.idTarea}, escuchadorEditarTarea);
-    // hacerEditable($editarTextArea, editingTextArea, {...tarea, idLista: tarea.idTarea}, escuchadorEditarTarea);
-    // onEditarStart($editarTitulo, escuchadorEditarTarea)
-    // onEditarStart($editarTextArea, escuchadorEditarTarea)
-
 
     function hacerEditableAmbos() {
         $editarTitulo.contentEditable = true;
         $editarTextArea.contentEditable = true;
+        $editarTitulo.focus();
     }
 
     function hacerNoEditableAmbos() {
         $editarTitulo.contentEditable = false;
         $editarTextArea.contentEditable = false;
     }
-    // escuchador( )
 
 
     return tareaUI.firstElementChild;

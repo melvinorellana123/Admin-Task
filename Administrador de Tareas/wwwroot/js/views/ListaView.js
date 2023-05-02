@@ -3,11 +3,11 @@ import {NoData} from "../components/NoData.js";
 import {crearTareaUI} from "../components/TareaUI.js";
 
 
-function MultipleContainers(listas, tablero, onMoverCard) {
+function MultipleContainers(listas, tablero, onMoverCard, onOrdenar) {
     const containersIds = listas.map(l => `#tareas-${l.idLista}`).join(' ,')
 
     const containers = tablero.querySelectorAll(`${containersIds}`);
- 
+
     containers.forEach(con => {
 
         Sortable.create(con, {
@@ -16,10 +16,7 @@ function MultipleContainers(listas, tablero, onMoverCard) {
             handle: '.tarea',
             easing: 'cubic-bezier(0.895,0.03,0.685,0.22)',
             chosenClass: 'hover',
-            onSort: function (evt) {
 
-                // onMoverCard(evt)
-            },
             // Event when you move an item in the list or between lists
             onMove: function (/**Event*/evt, /**Event*/originalEvent) {
                 // Example: https://jsbin.com/nawahef/edit?js,output
@@ -34,13 +31,16 @@ function MultipleContainers(listas, tablero, onMoverCard) {
                 // return 1; — insert after target
                 // return true; — keep default insertion point based on the direction
                 // return void; — keep default insertion point based on the direction
-                // onMoverCard(evt,originalEvent)
+
+            },
+            onSort: function (/**Event*/evt) {
+                onOrdenar(evt)
             },
 
             // Element is dropped into the list from another list
             onAdd: function (/**Event*/evt) {
                 // same properties as onEnd
-                onMoverCard(evt)
+                // onMoverCard(evt)
             },
         });
     })
@@ -107,15 +107,28 @@ export class ListaView {
         this.agregarTarea(tarea);
     }
 
-    async onEditarTarea(idTarea, idLista, nuevoNombre, nuevaDescripcion) {
-
+    async onEditarTarea(tarea) {
+        return await this.#listaController.onEditarTarea(tarea)
     }
 
-    async onBorrarTarea(idTarea, idLista) {
+    removerTareaDom(tarea) {
+        this.$tablero = document.querySelector('#listado');
+        const $lista = this.$tablero.querySelector(`#tareas-${tarea.idLista}`)
+        const $tarea = $lista.querySelector(`#tarea-${tarea.idTarea}`)
+        $lista.removeChild($tarea)
+    }
 
+    async onBorrarTarea(tarea) {
+        const res = await this.#listaController.onEliminarTarea(tarea)
+        this.removerTareaDom(tarea);
+        return res;
     }
 
     async onMoverTarea(idTarea, idListaOrigen, idListaDestino) {
+    }
+
+    async ordenarTarea() {
+
     }
 
 
@@ -125,7 +138,9 @@ export class ListaView {
     }
 
     crearTareaUiConEventos(tarea) {
-        return crearTareaUI(tarea, this.onEditarTarea, this.onBorrarTarea, this.onMoverTarea)
+        return crearTareaUI(tarea,
+            async (tarea) => await this.onEditarTarea(tarea),
+            async (tarea) => await this.onBorrarTarea(tarea))
     }
 
 
@@ -155,7 +170,34 @@ export class ListaView {
     }
 
     onMoverCard(data) {
-        console.log(data)
+        // console.log(data)
+    }
+
+
+    async onOrdenar(data) {
+        let paraUltimaPosicion = false
+        const listaFromId = data.from.id.split('-').at(-1)
+        const listaToId = data.to.id.split('-').at(-1)
+        let antiguaPosicion = data.oldIndex
+        let nuevaPosicion = data.newIndex
+
+        const fromLista = this.listas.find(l => l.idLista === +listaFromId)
+        const toLista = this.listas.find(l => l.idLista === +listaToId)
+
+        const tareaFrom = fromLista.tareas.find((t, i) => i === +antiguaPosicion)
+
+        if (+nuevaPosicion === toLista.tareas.length) {
+            paraUltimaPosicion = true
+            nuevaPosicion = Number(nuevaPosicion) - 1
+        }
+        const tareaTo = toLista.tareas.find((t, i) => i === +nuevaPosicion)
+ 
+        const dtoOrdenar = {
+            ParaUltimaPosicion: paraUltimaPosicion,
+            TareaFrom: tareaFrom,
+            TareaTo: tareaTo
+        }
+        await this.#listaController.onMoverTarea(dtoOrdenar)
     }
 
 
@@ -173,9 +215,11 @@ export class ListaView {
             return
         }
         const listasUi = listas?.map(lista => this.crearListaConEventos(lista));
-
+        this.listas = listas
         this.$tablero.append(...listasUi)
-        MultipleContainers(listas, this.$tablero, this.onMoverCard)
+        MultipleContainers(listas, this.$tablero,
+            (...tarea) => this.onMoverCard(...tarea),
+            (...tarea) => this.onOrdenar(...tarea))
     }
 
     mostrarNoHayListas() {

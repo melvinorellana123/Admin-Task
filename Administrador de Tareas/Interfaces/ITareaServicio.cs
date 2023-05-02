@@ -1,4 +1,5 @@
 ﻿using Administrador_de_Tareas.Models;
+using Administrador_de_Tareas.Models.ViewModels;
 
 namespace Administrador_de_Tareas.Interfaces;
 
@@ -13,4 +14,6 @@ public interface ITareaServicio
     Task ActualizarListaTarea(int id, int idLista);
     Task ActualizarOrderYListaTarea(int id, int orden, int idLista);
     Task<IEnumerable<Tarea>> ObtenerTareasPorLista(int idLista);
+    
+    Task MoverTareaASeccion(MoverTareaVM moverTareaDto);
 }

@@ -1,5 +1,5 @@
 ﻿import {Lista} from "../models/Lista.js";
- 
+
 export class ListaService {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
@@ -76,6 +76,61 @@ export class ListaService {
         });
 
         return await tareaCreada.json();
+    }
+
+    async editarTarea(tarea) {
+        return await fetch(`${this.baseUrl}Tareas/EditarTarea`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                IdTarea: tarea.idTarea,
+                TareaNombre: tarea.tareaNombre,
+                Descripcion: tarea.descripcion,
+                IdLista: tarea.idLista,
+                TareaOrden: tarea.tareaOrden
+            })
+        })
+    }
+
+    async eliminarTarea(tarea) {
+        return await fetch(`${this.baseUrl}Tareas/EliminarTarea?idTarea=${tarea.idTarea}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        })
+    }
+
+    async moverTarea({ParaUltimaPosicion, TareaFrom, TareaTo}) {
+        console.log(ParaUltimaPosicion, TareaFrom, TareaTo)
+        return await fetch(`${this.baseUrl}Tareas/MoverTarea`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                ParaUltimaPosicion: ParaUltimaPosicion,
+                TareaFrom: {
+                    IdTarea: TareaFrom.idTarea,
+                    TareaNombre: TareaFrom.tareaNombre,
+                    Descripcion: TareaFrom.descripcion,
+                    IdLista: TareaFrom.idLista,
+                    TareaOrden: TareaFrom.tareaOrden
+                },
+                TareaTo: {
+                    IdTarea: TareaTo.idTarea,
+                    TareaNombre: TareaTo.tareaNombre,
+                    Descripcion: TareaTo.descripcion,
+                    IdLista: TareaTo.idLista,
+                    TareaOrden: TareaTo.tareaOrden
+                }
+            })
+        })
     }
 }
 
