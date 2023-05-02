@@ -3,7 +3,7 @@
     constructor({Servicios: {TableroService, StorageService}, Vistas: {TableroView, ListaView}}) {
         this.tableroService = TableroService;
         this.storageService = StorageService;
-        
+
         this.tableroView = TableroView;
         this.tableroView.setControladorInstancia(this);
         this.listaView = ListaView;
@@ -18,6 +18,11 @@
             this.tableroView.ocultarHeader();
             console.log(e)
         }
+    }
+
+    async onEditarTablero(idTablero, nuevoNombre) {
+     
+        await this.tableroService.editarTablero(idTablero, nuevoNombre);
     }
 }
 

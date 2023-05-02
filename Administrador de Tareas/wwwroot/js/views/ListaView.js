@@ -1,5 +1,6 @@
 ﻿import {crearLista} from "../components/Lista.js";
 import {NoData} from "../components/NoData.js";
+import {crearTareaUI} from "../components/TareaUI.js";
 
 export class ListaView {
     #listaController
@@ -54,8 +55,48 @@ export class ListaView {
         this.#listaController.onEditarLista(idLista, IdTablero, nuevoNombre)
     }
 
+    async onCrearTarea(nombre, descripcion, idLista) {
+
+        const tarea = await this.#listaController.onCrearTarea(nombre, descripcion, idLista);
+        
+        this.agregarTarea(tarea);
+    }
+
+    async onEditarTarea(idTarea, idLista, nuevoNombre, nuevaDescripcion) {
+
+    }
+
+    async onBorrarTarea(idTarea, idLista) {
+
+    }
+
+    async onMoverTarea(idTarea, idListaOrigen, idListaDestino) {
+    }
+
+
+    async onCrearTarea(nombre, descripcion, idLista) {
+        const tarea = await this.#listaController.onCrearTarea(nombre, descripcion, idLista);
+        this.agregarTarea(tarea);
+    }
+
+    crearTareaUiConEventos(tarea) {
+        return crearTareaUI(tarea, this.onEditarTarea, this.onBorrarTarea, this.onMoverTarea)
+    }
+
+
+    agregarTarea(tarea) {
+        const $tareasContenedor = document.querySelector(`#tareas-${tarea.idLista}`);
+        $tareasContenedor.append(this.crearTareaUiConEventos(tarea));
+    }
+
     crearListaConEventos(lista) {
-        return crearLista(lista, (idLista) => this.onEliminarLista(idLista), (...data) => this.onEditarLista(...data))
+        return crearLista(
+            lista,
+            (idLista) => this.onEliminarLista(idLista),
+            (...data) => this.onEditarLista(...data),
+            (...tarea) =>this.onCrearTarea(...tarea),
+            (...tarea) => this.crearTareaUiConEventos(...tarea),
+        )
     }
 
     agregarLista(lista) {

@@ -1,4 +1,5 @@
 ﻿import {Lista} from "../models/Lista.js";
+import {Tarea} from "../models/Tarea.js";
 
 export class ListaService {
     constructor(baseUrl) {
@@ -44,7 +45,7 @@ export class ListaService {
             throw new Error(error);
         }
     }
-    
+
     async editarLista(idLista, idTablero, nuevoNombre) {
         console.log(idLista, idTablero, nuevoNombre)
         await fetch(`${this.baseUrl}Listas/EditarLista`, {
@@ -59,6 +60,23 @@ export class ListaService {
                 ListaNombre: nuevoNombre
             }),
         });
+    }
+
+    async crearTarea(nombre, descripcion, idLista) {
+        const tareaCreada = await fetch(`${this.baseUrl}Tareas/CrearTarea`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                TareaNombre: nombre,
+                Descripcion: descripcion,
+                IdLista: idLista
+            })
+        });
+
+        return await tareaCreada.json();
     }
 }
 

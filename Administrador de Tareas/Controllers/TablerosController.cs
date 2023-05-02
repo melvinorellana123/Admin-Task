@@ -39,20 +39,25 @@ public class TablerosController : Controller
     [HttpPost]
     public async Task<IActionResult> CrearTablero(string nombreTablero)
     {
-        
         if (string.IsNullOrEmpty(nombreTablero))
         {
             return BadRequest("El nombre del tablero no puede estar vacío");
         }
-        
+
         var tablero = await _tableroServicio.CrearTablero(nombreTablero);
         return Json(tablero);
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> EliminarTablero(int id)
     {
         await _tableroServicio.EliminarTablero(id);
         return Ok();
+    }
+
+    [HttpPost]
+    public async Task EditarTablero([FromBody] Tablero tablero)
+    {
+        await _tableroServicio.EditarTablero(tablero);
     }
 }

@@ -19,10 +19,14 @@
         const res = await this.listaService.borrarLista(idLista);
         return res;
     }
-    
+
     async onEditarLista(idLista, idTablero, nuevoNombre) {
         const res = await this.listaService.editarLista(idLista, idTablero, nuevoNombre);
         return res;
+    }
+
+    async onCrearTarea(nombre, descripcion, idLista) {
+        return await this.listaService.crearTarea(nombre, descripcion, idLista)
     }
 }
 

@@ -49,7 +49,7 @@ public class ListasController : Controller
             return NotFound("No se encontro la lista");
         }
     }
-    
+
     [HttpPost]
     public async Task<Lista> EditarLista([FromBody] Lista lista)
     {

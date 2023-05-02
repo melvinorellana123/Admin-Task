@@ -13,20 +13,28 @@ public class TareaServicio : ITareaServicio
         _dataContext = dataContext;
     }
 
-    public async Task<int> CrearTarea(Tarea tarea)
+    public async Task<Tarea> CrearTarea(Tarea tarea)
     {
         using var connection = _dataContext.CreateConnection();
         connection.Open();
+        //select last Tarea inserted
         var query =
             @"INSERT INTO Tarea 
-                (nombre, descripcion, id_lista, orden) 
+                (nombre, descripcion, id_lista ) 
             VALUES 
-                (@nombre, @descripcion, @idLista, @orden);
-            SELECT CAST(SCOPE_IDENTITY() as int);";
+                (@TareaNombre, @descripcion, @idLista );
+            SELECT 
+                id_tarea as IdTarea,
+                nombre as TareaNombre,
+                descripcion as Descripcion,
+                id_lista as IdLista,
+                orden as TareaOrden
+            FROM Tarea WHERE id_tarea =  SCOPE_IDENTITY()  ;         
+";
 
-        var idTask = await connection.QuerySingleAsync<int>(query, tarea);
+        var tareaCreada = await connection.QuerySingleAsync<Tarea>(query, tarea);
         connection.Close();
-        return idTask;
+        return tareaCreada;
     }
 
     public async Task<IEnumerable<Tarea>> ObtenerTareas()
@@ -38,7 +46,7 @@ public class TareaServicio : ITareaServicio
         connection.Close();
         return tareas;
     }
-    
+
     public async Task<IEnumerable<Tarea>> ObtenerTareasPorLista(int idLista)
     {
         using var connection = _dataContext.CreateConnection();

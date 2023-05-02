@@ -8,4 +8,5 @@ public interface ITableroServicio
     Task<List<Lista>> ObtenerListasPorId(int id);
     Task<Tablero> CrearTablero(string tableroNombre);
     Task EliminarTablero(int id);
+    Task EditarTablero(Tablero tablero);
 }

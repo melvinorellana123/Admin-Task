@@ -4,7 +4,7 @@ namespace Administrador_de_Tareas.Interfaces;
 
 public interface ITareaServicio
 {
-    Task<int> CrearTarea(Tarea tarea);
+    Task<Tarea> CrearTarea(Tarea tarea);
     Task<IEnumerable<Tarea>> ObtenerTareas();
     Task<Tarea> ObtenerTareaPorId(int id);
     Task<int> ActualizarTarea(Tarea tarea);

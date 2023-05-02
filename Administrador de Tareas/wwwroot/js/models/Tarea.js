@@ -1,9 +1,9 @@
 ﻿export class Tarea {
-    constructor(id, titulo, descripcion, orden) {
+    constructor(id, titulo, descripcion, orden,idLista) {
         this.IdTarea = id;
         this.TareaNombre = titulo;
         this.Descripcion = descripcion;
-        this.IdLista = estado;
+        this.IdLista = idLista;
         this.TareaOrden = orden;
     }
 }

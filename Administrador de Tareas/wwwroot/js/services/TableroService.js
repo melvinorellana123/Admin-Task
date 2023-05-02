@@ -44,5 +44,18 @@
 
         return Promise.resolve();
     }
+
+    async editarTablero(id, nombre) {
+        await fetch(`${this.baseUrl}Tableros/EditarTablero`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({IdTablero: id, Nombre: nombre})
+        });
+
+        return Promise.resolve();
+    }
 }
 

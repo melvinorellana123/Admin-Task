@@ -56,6 +56,16 @@ public class TableroServicio : ITableroServicio
         return Task.CompletedTask;
     }
 
+    public Task EditarTablero(Tablero tablero)
+    {
+        using var connection = _context.CreateConnection();
+        connection.Open();
+        var query = @$"UPDATE Tablero SET nombre = @Nombre WHERE id_tablero = @IdTablero;";
+        connection.Execute(query, tablero);
+        connection.Close();
+        return Task.CompletedTask;
+    }
+
     public async Task<List<Lista>> ObtenerListasPorId(int id)
     {
         using var connection = _context.CreateConnection();
@@ -93,7 +103,9 @@ public class TableroServicio : ITableroServicio
             var groupedList = g.First();
             var todasTareasPertenecientesAUnaLista = g.TakeWhile(p => p.Tareas.SingleOrDefault() != null);
 
-            var tareasPertenecientesAUnaLista =todasTareasPertenecientesAUnaLista != null ? todasTareasPertenecientesAUnaLista.Select(p => p.Tareas.SingleOrDefault()) : null;
+            var tareasPertenecientesAUnaLista = todasTareasPertenecientesAUnaLista != null
+                ? todasTareasPertenecientesAUnaLista.Select(p => p.Tareas.SingleOrDefault())
+                : null;
             if (tareasPertenecientesAUnaLista != null)
             {
                 groupedList.Tareas = tareasPertenecientesAUnaLista.ToList();
