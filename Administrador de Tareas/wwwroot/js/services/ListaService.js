@@ -106,8 +106,7 @@ export class ListaService {
     }
 
     async moverTarea({ParaUltimaPosicion, TareaFrom, TareaTo}) {
-        console.log(ParaUltimaPosicion, TareaFrom, TareaTo)
-        return await fetch(`${this.baseUrl}Tareas/MoverTarea`, {
+         return await fetch(`${this.baseUrl}Tareas/MoverTarea`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

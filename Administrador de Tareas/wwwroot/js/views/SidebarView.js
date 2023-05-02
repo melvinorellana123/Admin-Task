@@ -19,10 +19,10 @@ export class SidebarView {
         this.#sidebarControllerInstance = SidebarControllerInstance;
     }
 
-    mostrarTableroSeleccionado() {
+    async mostrarTableroSeleccionado() {
         // si hay un tablero seleccionado en localStorage pedir los datos de ese tablero
         const {idTablero, nombreTablero} = this.#sidebarControllerInstance.storageService.tableroSeleccionado
-        this.onClickNavbarItem(idTablero, nombreTablero)
+        await this.onClickNavbarItem(idTablero, nombreTablero)
     }
 
     async onClickNavbarItem(idTablero, nombreTablero) {

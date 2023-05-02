@@ -58,36 +58,29 @@ public class TareaServicio : ITareaServicio
         return tareas;
     }
 
-    public Task MoverTareaASeccion(MoverTareaVM moverTareaDto)
+    public async Task MoverTareaASeccion(MoverTareaVM moverTareaDto)
     {
         using var connection = _dataContext.CreateConnection();
         connection.Open();
-        // mover la tareaFrom para la lista y posicion de la tareaTo
-        //setear el orden de la tarea to a la tarea from y aumentar el orden de las tareas que estan debajo de la tarea to
 
         var query = @"
-            UPDATE Tarea SET
-                id_lista = @IdListaTo,
+        UPDATE Tarea SET 
+                id_lista = @IdListaTo, 
                 orden = @TareaToOrden
             WHERE id_tarea = @TareaFromId;
-        UPDATE Tarea SET
-                orden = orden + 1
-            WHERE id_lista = @IdListaTo AND orden >= @TareaToOrden;
-        
         
 ";
 
-        connection.ExecuteAsync(query, new
+        await connection.ExecuteAsync(query, new
         {
-            // TareToId = moverTareaDto.TareaTo.IdTarea,
+            TareToId = moverTareaDto.TareaTo.IdTarea,
             TareaToOrden = moverTareaDto.TareaTo.TareaOrden,
             TareaFromId = moverTareaDto.TareaFrom.IdTarea,
-            // TareaFromOrden = moverTareaDto.TareaFrom.TareaOrden,
+            TareaFromOrden = moverTareaDto.TareaFrom.TareaOrden,
             IdListaTo = moverTareaDto.TareaTo.IdLista,
-            // IdListaFrom = moverTareaDto.TareaFrom.IdLista
+            IdListaFrom = moverTareaDto.TareaFrom.IdLista
         });
         connection.Close();
-        return Task.CompletedTask;
     }
 
     public async Task<Tarea> ObtenerTareaPorId(int id)

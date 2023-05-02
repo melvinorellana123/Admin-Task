@@ -93,10 +93,10 @@ export function crearLista(lista, onDelete, onEdit, onCrearNuevaTarea, tareaUi) 
     const btnCrearTarea = $lista.querySelector('#btnCrearTarea');
 
     async function crearTarea() {
+        new bootstrap.Collapse(document.getElementById(`myCollapseTarea-${lista.idLista}`)).hide()
         await onCrearNuevaTarea(tituloTarea.value, descripcionTarea.value, lista.idLista);
         tituloTarea.value = '';
         descripcionTarea.value = '';
-        new bootstrap.Collapse(document.getElementById(`myCollapseTarea-${lista.idLista}`)).hide()
     }
 
     escuchador(btnCrearTarea, crearTarea)

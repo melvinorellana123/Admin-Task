@@ -51,6 +51,13 @@ public class TareasController : Controller
     [HttpPost]
     public async Task MoverTarea([FromBody] MoverTareaVM moverTareaDto)
     {
-        await _tareaServicio.MoverTareaASeccion(moverTareaDto);
+        try
+        {
+            await _tareaServicio.MoverTareaASeccion(moverTareaDto);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
     }
 }

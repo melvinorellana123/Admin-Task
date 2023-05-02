@@ -69,7 +69,7 @@ export class ListaView {
             const listaCreada = await this.#listaController.onCrearLista($tituloLista.value);
             $tituloLista.value = '';
             this.ocultarInputCrearLista();
-            this.agregarLista(listaCreada);
+            // this.agregarLista(listaCreada);
         });
     }
 
@@ -134,7 +134,8 @@ export class ListaView {
 
     async onCrearTarea(nombre, descripcion, idLista) {
         const tarea = await this.#listaController.onCrearTarea(nombre, descripcion, idLista);
-        this.agregarTarea(tarea);
+        // this.agregarTarea(tarea);
+        return tarea;
     }
 
     crearTareaUiConEventos(tarea) {
@@ -147,6 +148,7 @@ export class ListaView {
     agregarTarea(tarea) {
         const $tareasContenedor = document.querySelector(`#tareas-${tarea.idLista}`);
         $tareasContenedor.append(this.crearTareaUiConEventos(tarea));
+
     }
 
     crearListaConEventos(lista) {
@@ -154,7 +156,7 @@ export class ListaView {
             lista,
             (idLista) => this.onEliminarLista(idLista),
             (...data) => this.onEditarLista(...data),
-            (...tarea) => this.onCrearTarea(...tarea),
+            async (...tarea) => await this.onCrearTarea(...tarea),
             (...tarea) => this.crearTareaUiConEventos(...tarea),
         )
     }
@@ -188,10 +190,13 @@ export class ListaView {
 
         if (+nuevaPosicion === toLista.tareas.length) {
             paraUltimaPosicion = true
-            nuevaPosicion = Number(nuevaPosicion) - 1
+            nuevaPosicion = Number(nuevaPosicion) ? Number(nuevaPosicion) - 1 : Number(nuevaPosicion)
         }
-        const tareaTo = toLista.tareas.find((t, i) => i === +nuevaPosicion)
- 
+        const tareaTo = toLista.tareas.find((t, i) => i === +nuevaPosicion) ?? {
+            tareaOrden: tareaFrom.tareaOrden,
+            idLista: +listaToId
+        }
+        console.log(tareaFrom, tareaTo, nuevaPosicion)
         const dtoOrdenar = {
             ParaUltimaPosicion: paraUltimaPosicion,
             TareaFrom: tareaFrom,
