@@ -12,7 +12,7 @@ function MultipleContainers(listas, tablero, onMoverCard) {
 
         Sortable.create(con, {
             group: 'shared',
-            animation: 400,
+            animation: 150,
             handle: '.tarea',
             easing: 'cubic-bezier(0.895,0.03,0.685,0.22)',
             chosenClass: 'hover',

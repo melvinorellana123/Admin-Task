@@ -45,3 +45,7 @@
     filter: saturate(200%);
    
 }
+
+.tareas{
+    min-height: 100px;
+}

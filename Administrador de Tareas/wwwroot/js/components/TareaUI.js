@@ -1,14 +1,19 @@
-﻿import {escuchador} from "../util/escuchador";
+﻿// import {escuchador} from "../util/escuchador";
 
 export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea) {
     const tareaHtml = `
         <div class="tarea card " id="${tarea.idTarea}">
             <div class="card-body" id="card-body-${tarea.idTarea}">
                   <div class="row g-0">
-                      <h4 id="editarTitulo-${tarea.idTarea}"  tabindex="${tarea.idTarea}"    class="card-title col editable">${tarea.tareaNombre}</h4>
-                      <a href="" tabindex="-1" class="btn btn-danger circulo-eliminar col-auto p-0 editable"></a>
+                      <h4 id="editarTitulo-${tarea.idTarea}"  tabindex="${tarea.idTarea}"    class="card-title col col-11 editable">${tarea.tareaNombre}</h4>
+            
+                      <div class="col-1 row align-items-end justify-content-end p-0 m-0">
+                            <a href="" tabindex="-1" class="btn btn-danger p-0  circulo-eliminar col col-auto circulo-eliminar-tarea editable"></a>  
+                       </div>
+                      <p class="card-text editable col col-11"  tabindex="${tarea.idTarea}"   id="editarTextArea-${tarea.idTarea}">${tarea.descripcion}</p>
                   </div>
-                  <p class="card-text editable"  tabindex="${tarea.idTarea}"   id="editarTextArea-${tarea.idTarea}">${tarea.descripcion}</p>
+            
+                  
             </div>
         </div> 
      `
@@ -88,7 +93,7 @@ export function crearTareaUI(tarea, onEditarTarea, onEliminarTarea, onMoverTarea
         $editarTitulo.contentEditable = false;
         $editarTextArea.contentEditable = false;
     }
-    escuchador( )
+    // escuchador( )
 
 
     return tareaUI.firstElementChild;
