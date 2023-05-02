@@ -64,6 +64,7 @@ public class TableroServicio : ITableroServicio
                        l.id_lista      as IdLista,
                        l.nombre        as ListaNombre,
                        l.orden         as ListaOrden,
+                       l.id_tablero    as IdTablero,
                        tar.id_tarea    as IdTarea,
                        tar.nombre      as TareaNombre,
                        tar.descripcion as Descripcion,

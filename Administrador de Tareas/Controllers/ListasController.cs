@@ -49,4 +49,11 @@ public class ListasController : Controller
             return NotFound("No se encontro la lista");
         }
     }
+    
+    [HttpPost]
+    public async Task<Lista> EditarLista([FromBody] Lista lista)
+    {
+        var listaEditada = await _listaServicio.EditarLista(lista);
+        return listaEditada;
+    }
 }

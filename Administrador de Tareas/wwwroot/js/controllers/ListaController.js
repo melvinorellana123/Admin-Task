@@ -19,6 +19,11 @@
         const res = await this.listaService.borrarLista(idLista);
         return res;
     }
+    
+    async onEditarLista(idLista, idTablero, nuevoNombre) {
+        const res = await this.listaService.editarLista(idLista, idTablero, nuevoNombre);
+        return res;
+    }
 }
 
  

@@ -50,13 +50,12 @@ export class ListaView {
         }
     }
 
-    onEditarLista(idLista, IdTablero) {
-
-        console.log("Editar Lista", idLista, IdTablero)
+    onEditarLista(idLista, IdTablero, nuevoNombre) {
+        this.#listaController.onEditarLista(idLista, IdTablero, nuevoNombre)
     }
 
     crearListaConEventos(lista) {
-        return crearLista(lista, (idLista) => this.onEliminarLista(idLista), this.onEditarLista)
+        return crearLista(lista, (idLista) => this.onEliminarLista(idLista), (...data) => this.onEditarLista(...data))
     }
 
     agregarLista(lista) {
@@ -66,13 +65,10 @@ export class ListaView {
     }
 
     #limpiarListas() {
-
         this.$tablero.innerHTML = '';
     }
 
     render(listas) {
-        console.log(listas)
-
         const {fueBorrado} = this.#listaController.storageService;
         this.#limpiarListas();
         if (fueBorrado) {

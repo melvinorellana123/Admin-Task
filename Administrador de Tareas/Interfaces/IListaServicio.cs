@@ -11,4 +11,5 @@ public interface IListaServicio
     Task ActualizarOrdenLista(int id, int orden);
     Task ActualizarListaNombre(int id, string nombre);
     Task<IEnumerable<Lista>> ObtenerListas(int idTablero);
+    Task<Lista> EditarLista(Lista lista);
 }

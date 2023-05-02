@@ -44,5 +44,21 @@ export class ListaService {
             throw new Error(error);
         }
     }
+    
+    async editarLista(idLista, idTablero, nuevoNombre) {
+        console.log(idLista, idTablero, nuevoNombre)
+        await fetch(`${this.baseUrl}Listas/EditarLista`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                IdLista: idLista,
+                IdTablero: idTablero,
+                ListaNombre: nuevoNombre
+            }),
+        });
+    }
 }
 
