@@ -16,18 +16,61 @@ export function crearLista(lista, onDelete, onEdit) {
     listaTituloEdit.className = "form-control col-auto";
 
     const listaHtmlText = `
-        <div class="lista glasmorfisify col-4" id="lista-${lista.idLista}">
+        <div class="lista glasmorfisify col-4 " id="lista-${lista.idLista}">
             <div class="justify-content-between row p-3 align-items-center">
                 <span class="col" id="textoOInput" > 
                     ${listaTitulo.outerHTML}
                 </span>
                 <div class="col-2">
                     <div class="row flex-nowrap gap-2 justify-content-end">
-                         <span id="deleteButton" class="col-3" style="font-size: 20px" type="button">🗑</span>
+                         <span id="deleteButton" class="col-auto"  type="button"> <img width="30px" src="Images/bote-de-basura.png" alt="">
+                         </span>
                     </div>
                 </div>
             </div>
              ${tareas}
+             
+                         
+               
+<!--             
+-->
+                 <div class="col gap-2 ">
+
+                    <div class="row justify-content-end p-2">
+                        <button
+                            class="btn btn-light col-12 boton-crear-seccion"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#myCollapse"
+                            aria-expanded="false"
+                            aria-controls="collapseExample">
+                            Nueva Tarea
+                        </button>
+                    </div>
+
+                    <div class="row collapse g-2 mt-2" id="myCollapse">
+                        <div class="col-8">
+                            <input  id="tituloTarea" class="form-control" type="text" placeholder="Nombre de la nueva tarea" aria-label="crear tablero">
+                        </div>
+                        <div class="col-4">
+                            <button
+                                type="button"
+                                class=" btn text-light boton-crear-lista w-100 col-6"
+                                id="btnCrearTarea"
+                                >
+                                Crear
+                            </button>
+                        </div>
+                                        <div class="form-floating">
+  <textarea class="form-control" placeholder="Descripción" id="floatingTextarea"></textarea>
+  <label for="floatingTextarea">Descripción</label>
+</div>
+          
+          
+                    </div>
+                </div>
+           
+                   
         </div>`
 
     const $lista = document.createElement('div');

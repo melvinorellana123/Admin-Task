@@ -178,6 +178,15 @@ header b {
     background-color: var(--hover-color);
 }
 
+.boton-crear-tarea{
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    font-size: 18px;
+    box-shadow: none;
+    transition: 0.4s;
+}
+.boton-crear-tarea{
+    color: black !important;
+}
 
 .circulo-eliminar {
     background-color: rgba(255, 32, 32, 0.79);
