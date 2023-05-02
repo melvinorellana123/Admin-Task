@@ -76,7 +76,7 @@ export class ListaView {
         const {fueBorrado} = this.#listaController.storageService;
         this.#limpiarListas();
         if (fueBorrado) {
-            this.$tablero.append(NoData("No hay un tablero seleccionado"));
+            this.$tablero.append(NoData("Seleccione un tablero"));
             return
         }
 

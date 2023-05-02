@@ -5,7 +5,8 @@
     navbarItem.innerHTML = `
         <div class="row align-items-center mx-1  " >
             <p  class="nav-link text-light col-10 text-white" style="height: 18px">${nombre}</p>
-            <span data-id="${idTablero}" class="col-1 btnEliminar" style="cursor: pointer;" >❌</span>
+<!--            <span data-id="${idTablero}" class="col-1 btnEliminar" style="cursor: pointer;" >❌</span>-->
+            <span data-id="${idTablero}" class="btnEliminar circulo-eliminar p-0" style="cursor: pointer;" ></span>
         </div>
     `
     return navbarItem;

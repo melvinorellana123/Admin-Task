@@ -45,12 +45,24 @@ header b {
     font-size: 20px;
     color: rgba(0, 22, 61);
     box-shadow: none;
-    transition: 0.4s;
+    transition: 0.2s;
+}
+.boton-crear-lista{
+    border: 1px solid rgba(255, 255, 255, 0.82);
+    font-size: 18px;
+    box-shadow: none;
+    transition: 0.4s;  
+}
+.boton-crear-lista:hover{
+    background-color: #FBFBFB;
+    color: black !important;
+ 
+    
 }
 
 .boton-crear-seccion:hover {
-    scale: 1.06;
-    box-shadow: 6px 6px 20px rgba(255, 255, 255, 0.48);
+    scale: 1.01;
+    box-shadow: 6px 6px 20px rgba(251, 251, 251, 0.5);
 }
 
 .bg_color {
@@ -76,10 +88,10 @@ header b {
 }
 
 .wave {
-    width: 300%;
+    width: 4000px;
     height: 600px;
     position: absolute;
-    top: 170px;
+    top: 120px;
     left: 0;
     background-image: url(../Images/wd1.svg);
     background-position: bottom;
@@ -125,6 +137,8 @@ header b {
 }
 
 .listado {
+    height: 80vh;
+    overflow-y: auto;
     display: flex;
     width: 100%;
     margin-top: 40px;
@@ -132,27 +146,31 @@ header b {
     gap: 20px;
 }
 
-.glasmorfisify {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+.listado::-webkit-scrollbar {
+    width: 5px;
 }
 
-.lista {
-    border-radius: 5px;
-    padding: 20px;
-    gap: 15px;
-    display: flex;
-    flex-direction: column;
+
+
+.listado::-webkit-scrollbar-thumb {
+    background-color: rgba(12, 99, 228, 0.60);
+    border-radius: 3px;
+    scrollbar-width: thin;
+
 }
+
+.listado::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(12, 99, 228, 1);
+
+}
+
+
 
 
 .tarea {
+ 
     background-color: rgba(255, 255, 255, 0.16);
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .tarea:hover {
@@ -162,8 +180,14 @@ header b {
 
 
 .circulo-eliminar {
+    background-color: rgba(255, 32, 32, 0.79);
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    transition: 0.2s;
+}
+.circulo-eliminar:hover {
+    background-color: rgb(255, 32, 32);
+ scale: 1.15;
 }
 

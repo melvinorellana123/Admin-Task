@@ -3,7 +3,7 @@
 export function crearLista(lista, onDelete, onEdit) {
     const tareas = lista.tareas?.map(tarea => crearTareaUI(tarea)).join('') ?? 'No hay tareas';
     const listaHtmlText = `
-        <div class="lista glasmorfisify" id="lista-${lista.idLista}">
+        <div class="lista glasmorfisify col-4" id="lista-${lista.idLista}">
             <div class="justify-content-between row p-3">
                 <h3 class="col">${lista.listaNombre}</h3>
                 <div class="col">
