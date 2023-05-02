@@ -23,8 +23,13 @@ export function crearLista(lista, onDelete, onEdit) {
                 </span>
                 <div class="col-2">
                     <div class="row flex-nowrap gap-2 justify-content-end">
-                         <span id="deleteButton" class="col-auto"  type="button"> <img width="30px" src="Images/bote-de-basura.png" alt="">
-                         </span>
+<!--                     <span id="deleteButton" class="col-auto circulo-eliminar p-0" style="cursor: pointer;" ></span>-->
+                     <span id="deleteButton" class="col-autop-0 icono-basurero" style="cursor: pointer;" >
+                     <img src="Images/borrar.png" width="20px">
+                    
+</span>
+
+                       
                     </div>
                 </div>
             </div>
